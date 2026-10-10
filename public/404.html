@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>F Movies</title>
+    <script>
+      // Fallback para GitHub Pages: F Movies usa enrutado por hash, asi que
+      // cualquier ruta sin hash se reescribe a la raiz del sitio conservando
+      // la parte relevante como ruta hash. Evita errores 404 en enlaces directos.
+      (function () {
+        var path = location.pathname;
+        var segs = path.split('/').filter(Boolean);
+        // El primer segmento suele ser el nombre del repositorio en Pages.
+        var repo = segs.length > 1 ? '/' + segs[0] + '/' : '/';
+        var rest = '/' + segs.slice(1).join('/');
+        location.replace(location.origin + repo + '#' + (rest === '/' ? '/' : rest));
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

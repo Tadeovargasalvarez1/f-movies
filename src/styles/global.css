@@ -1,0 +1,380 @@
+/* =========================================================================
+   F Movies — Estilos globales, layout y utiles
+   ========================================================================= */
+@import './tokens.css';
+@import './liquid-glass.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--fm-text);
+  background-color: var(--fm-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Fondo cinematografico con orbes difusos (el vidrio tiene algo que desenfocar). */
+.fm-background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(1100px 700px at 12% -8%, rgba(139, 92, 255, 0.28), transparent 60%),
+    radial-gradient(900px 620px at 92% 4%, rgba(79, 139, 255, 0.22), transparent 58%),
+    radial-gradient(1000px 820px at 50% 118%, rgba(255, 92, 200, 0.2), transparent 62%),
+    var(--fm-bg);
+}
+
+.fm-background::before,
+.fm-background::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  will-change: transform;
+}
+
+.fm-background::before {
+  width: 46vw;
+  height: 46vw;
+  top: -12vw;
+  left: -8vw;
+  background: radial-gradient(circle at 30% 30%, var(--fm-violet), transparent 68%);
+  animation: fm-drift-a 24s var(--ease) infinite alternate;
+}
+
+.fm-background::after {
+  width: 42vw;
+  height: 42vw;
+  bottom: -14vw;
+  right: -6vw;
+  background: radial-gradient(circle at 60% 40%, var(--fm-blue), transparent 66%);
+  animation: fm-drift-b 28s var(--ease) infinite alternate;
+}
+
+@keyframes fm-drift-a {
+  to {
+    transform: translate3d(6vw, 4vw, 0) scale(1.12);
+  }
+}
+
+@keyframes fm-drift-b {
+  to {
+    transform: translate3d(-5vw, -3vw, 0) scale(1.1);
+  }
+}
+
+/* Layout */
+.fm-app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.fm-container {
+  width: 100%;
+  max-width: var(--fm-maxw);
+  margin-inline: auto;
+  padding-inline: clamp(16px, 4vw, 32px);
+}
+
+.fm-main {
+  flex: 1;
+  padding-block: clamp(24px, 6vw, 64px);
+}
+
+/* Tipografia */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 0.4em;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 750;
+}
+
+h1 {
+  font-size: clamp(2.1rem, 6vw, 3.6rem);
+}
+
+h2 {
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.1rem, 2.4vw, 1.32rem);
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--fm-blue);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.fm-muted {
+  color: var(--fm-text-muted);
+}
+
+.fm-dim {
+  color: var(--fm-text-dim);
+}
+
+.fm-gradient-text {
+  background: var(--fm-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Accesibilidad */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+  border-radius: var(--radius-sm);
+}
+
+.fm-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.fm-skip-link {
+  position: absolute;
+  left: 16px;
+  top: -60px;
+  z-index: 200;
+  padding: 10px 16px;
+  border-radius: var(--radius-control);
+  background: var(--fm-surface, rgba(20, 22, 30, 0.9));
+  transition: top var(--t-hover) var(--ease);
+}
+
+.fm-skip-link:focus {
+  top: 16px;
+}
+
+/* Botones base */
+.fm-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-control);
+  font: inherit;
+  font-weight: 600;
+  color: var(--fm-text);
+  background: transparent;
+  cursor: pointer;
+  transition: transform var(--t-hover) var(--ease), background var(--t-hover) var(--ease),
+    border-color var(--t-hover) var(--ease), color var(--t-hover) var(--ease), opacity var(--t-hover) var(--ease);
+}
+
+.fm-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.fm-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.fm-btn--primary {
+  background: var(--fm-gradient);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(80, 90, 220, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.fm-btn--primary:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.fm-btn--ghost {
+  border-color: var(--glass-border);
+  background: var(--glass-fill);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+}
+
+.fm-btn--ghost:hover:not(:disabled) {
+  border-color: var(--glass-border-strong);
+  background: var(--glass-fill-strong);
+}
+
+.fm-btn--danger {
+  border-color: rgba(255, 95, 109, 0.4);
+  color: var(--fm-red);
+}
+
+.fm-btn--icon {
+  padding: 0;
+  width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-control);
+}
+
+/* Inputs / selects */
+.fm-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fm-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--fm-text-muted);
+  text-transform: uppercase;
+}
+
+.fm-select {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 40px 0 14px;
+  border-radius: var(--radius-control);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill);
+  color: var(--fm-text);
+  font: inherit;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a9b0c6' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+  cursor: pointer;
+}
+
+.fm-select:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.fm-select option {
+  background: var(--fm-bg-soft);
+  color: var(--fm-text);
+}
+
+/* Chips */
+.fm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill);
+  color: var(--fm-text-muted);
+  cursor: pointer;
+  transition: border-color var(--t-hover) var(--ease), color var(--t-hover) var(--ease);
+}
+
+.fm-chip:hover {
+  border-color: var(--glass-border-strong);
+  color: var(--fm-text);
+}
+
+.fm-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-fill);
+  color: var(--fm-text-muted);
+}
+
+/* Utilidades */
+.fm-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.fm-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.fm-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fm-spin {
+  animation: fm-spin 0.9s linear infinite;
+}
+
+@keyframes fm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.fm-fade-in {
+  animation: fm-fade-in var(--t-layout) var(--ease) both;
+}
+
+@keyframes fm-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .fm-background::before,
+  .fm-background::after {
+    animation: none !important;
+  }
+}

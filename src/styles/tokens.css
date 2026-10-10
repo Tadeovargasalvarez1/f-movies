@@ -1,0 +1,76 @@
+/* =========================================================================
+   F Movies — Tokens de diseno (Liquid Glass)
+   Valores orientativos inspirados en el material Liquid Glass de Apple,
+   adaptados a la web. No son especificaciones oficiales de Apple.
+   ========================================================================= */
+
+:root {
+  color-scheme: dark;
+
+  /* Acentos de identidad F Movies */
+  --fm-violet: #8b5cff;
+  --fm-blue: #4f8bff;
+  --fm-magenta: #ff5cc8;
+  --fm-cyan: #46e0ff;
+  --fm-green: #3ddc97;
+  --fm-amber: #ffc24b;
+  --fm-red: #ff5f6d;
+
+  --fm-gradient: linear-gradient(120deg, var(--fm-violet), var(--fm-blue) 55%, var(--fm-magenta));
+
+  /* Fondos */
+  --fm-bg: #06070d;
+  --fm-bg-soft: #0b0d16;
+
+  /* Texto */
+  --fm-text: #f5f7fb;
+  --fm-text-muted: #a9b0c6;
+  --fm-text-dim: #717894;
+  --fm-text-invert: #0b0d16;
+
+  /* Liquid Glass */
+  --glass-blur: 20px;
+  --glass-blur-strong: 34px;
+  --glass-saturation: 180%;
+  --glass-fill: rgba(255, 255, 255, 0.055);
+  --glass-fill-strong: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-border-strong: rgba(255, 255, 255, 0.3);
+  --glass-highlight: rgba(255, 255, 255, 0.22);
+  --glass-shadow: 0 18px 50px rgba(0, 0, 0, 0.42);
+
+  /* Radios */
+  --radius-sm: 12px;
+  --radius-control: 16px;
+  --radius-card: 22px;
+  --radius-bar: 28px;
+  --radius-pill: 999px;
+
+  /* Movimiento */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-hover: 180ms;
+  --t-press: 120ms;
+  --t-layout: 260ms;
+
+  --focus: 0 0 0 2px rgba(79, 139, 255, 0.95), 0 0 0 5px rgba(79, 139, 255, 0.28);
+
+  --fm-maxw: 1120px;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --fm-bg: #eef1f8;
+  --fm-bg-soft: #ffffff;
+
+  --fm-text: #17202c;
+  --fm-text-muted: #4a5568;
+  --fm-text-dim: #77809a;
+
+  --glass-fill: rgba(255, 255, 255, 0.5);
+  --glass-fill-strong: rgba(255, 255, 255, 0.66);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-border-strong: rgba(255, 255, 255, 0.9);
+  --glass-highlight: rgba(255, 255, 255, 0.75);
+  --glass-shadow: 0 14px 40px rgba(20, 30, 55, 0.16);
+}

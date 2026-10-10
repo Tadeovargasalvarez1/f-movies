@@ -1,0 +1,340 @@
+/* =========================================================================
+   F Movies — Animaciones
+   Iconos, transiciones de vista (paginas) y micro-interacciones de botones.
+   Todo respeta prefers-reduced-motion mediante la regla global.
+   ========================================================================= */
+
+@keyframes fm-view-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fm-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fm-pop-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes fm-icon-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) rotate(-14deg);
+  }
+  70% {
+    transform: scale(1.12) rotate(3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes fm-nav-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-4px) scale(1.12);
+  }
+  70% {
+    transform: translateY(1px) scale(0.98);
+  }
+}
+
+@keyframes fm-icon-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.16);
+  }
+}
+
+@keyframes fm-float {
+  from {
+    transform: translateY(0) rotate(0);
+  }
+  to {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+}
+
+@keyframes fm-shimmer {
+  from {
+    background-position: -120% 0;
+  }
+  to {
+    background-position: 220% 0;
+  }
+}
+
+/* --- Transicion de vista (cambio de pagina) ------------------------------- */
+.fm-view {
+  animation: fm-view-in 380ms var(--ease) both;
+}
+
+.fm-header__bar {
+  animation: fm-rise 520ms var(--ease) both;
+}
+
+.fm-footer {
+  animation: fm-view-in 500ms var(--ease) both;
+  animation-delay: 60ms;
+}
+
+/* --- Entrada escalonada del hero ----------------------------------------- */
+.fm-hero__eyebrow,
+.fm-hero__title,
+.fm-hero__subtitle,
+.fm-search,
+.fm-examples {
+  animation: fm-rise 560ms var(--ease) both;
+}
+
+.fm-hero__eyebrow {
+  animation-delay: 40ms;
+}
+.fm-hero__title {
+  animation-delay: 90ms;
+}
+.fm-hero__subtitle {
+  animation-delay: 140ms;
+}
+.fm-search {
+  animation-delay: 190ms;
+}
+.fm-examples {
+  animation-delay: 260ms;
+}
+
+.fm-formats__grid .fm-format-card {
+  animation: fm-rise 520ms var(--ease) both;
+}
+.fm-formats__grid .fm-format-card:nth-child(1) {
+  animation-delay: 60ms;
+}
+.fm-formats__grid .fm-format-card:nth-child(2) {
+  animation-delay: 120ms;
+}
+.fm-formats__grid .fm-format-card:nth-child(3) {
+  animation-delay: 180ms;
+}
+.fm-formats__grid .fm-format-card:nth-child(4) {
+  animation-delay: 240ms;
+}
+
+.fm-result {
+  animation: fm-rise 460ms var(--ease) both;
+}
+
+.fm-toast {
+  animation: fm-pop-in 320ms var(--ease) both;
+}
+
+/* --- Iconos: base interactiva -------------------------------------------- */
+.fm-btn svg,
+.fm-nav__link svg,
+.fm-chip svg,
+.fm-segmented__btn svg,
+.fm-history__item svg,
+.fm-footer a svg,
+.fm-page a svg {
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.fm-btn:hover:not(:disabled) svg {
+  transform: translateY(-1px) scale(1.14) rotate(-6deg);
+}
+
+.fm-btn:active:not(:disabled) svg {
+  transform: scale(0.86) rotate(4deg);
+}
+
+.fm-nav__link:hover svg {
+  animation: fm-nav-bounce 520ms var(--ease);
+}
+
+.fm-nav__link[aria-current='page'] svg {
+  filter: drop-shadow(0 0 8px rgba(139, 92, 255, 0.65));
+}
+
+.fm-footer a:hover svg {
+  transform: translateX(3px);
+}
+
+/* --- Iconos: logo --------------------------------------------------------- */
+.fm-logo__mark {
+  transition: transform var(--t-hover) var(--ease), box-shadow var(--t-hover) var(--ease);
+}
+
+.fm-logo:hover .fm-logo__mark {
+  transform: rotate(-10deg) scale(1.08);
+  box-shadow: 0 10px 26px rgba(90, 90, 220, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.fm-logo__mark svg {
+  transition: transform var(--t-hover) var(--ease);
+}
+
+.fm-logo:hover .fm-logo__mark svg {
+  transform: scale(1.12);
+}
+
+/* --- Iconos: buscador ----------------------------------------------------- */
+.fm-search {
+  transition: transform var(--t-layout) var(--ease), border-color var(--t-hover) var(--ease),
+    box-shadow var(--t-layout) var(--ease);
+}
+
+.fm-search:focus-within {
+  transform: translateY(-2px);
+  border-color: var(--glass-border-strong);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(139, 92, 255, 0.4),
+    inset 0 1px 0 var(--glass-highlight);
+}
+
+.fm-search:focus-within .fm-search__icon svg {
+  animation: fm-icon-pulse 1.8s var(--ease) infinite;
+  color: var(--fm-violet);
+}
+
+.fm-search__icon {
+  transition: background var(--t-hover) var(--ease), color var(--t-hover) var(--ease);
+}
+
+.fm-search:focus-within .fm-search__icon {
+  background: rgba(139, 92, 255, 0.18);
+  color: var(--fm-violet);
+}
+
+/* --- Iconos: tarjetas de formato ----------------------------------------- */
+.fm-format-card {
+  transition: transform var(--t-layout) var(--ease), border-color var(--t-hover) var(--ease),
+    box-shadow var(--t-layout) var(--ease);
+}
+
+.fm-format-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--glass-border-strong);
+  box-shadow: 0 24px 55px rgba(0, 0, 0, 0.5), inset 0 1px 0 var(--glass-highlight);
+}
+
+.fm-format-card__icon {
+  transition: transform var(--t-layout) var(--ease), background var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease);
+}
+
+.fm-format-card:hover .fm-format-card__icon {
+  transform: translateY(-3px) rotate(-9deg) scale(1.1);
+  background: rgba(139, 92, 255, 0.2);
+  color: var(--fm-magenta);
+}
+
+/* --- Iconos: selector de modo -------------------------------------------- */
+.fm-segmented__btn[aria-pressed='true'] svg {
+  animation: fm-icon-pop 420ms var(--ease);
+}
+
+/* --- Iconos: estado ------------------------------------------------------- */
+.fm-status__row svg:not(.fm-spin) {
+  animation: fm-icon-pop 420ms var(--ease) both;
+}
+
+/* --- Botones -------------------------------------------------------------- */
+.fm-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.fm-btn--primary {
+  transition: transform var(--t-hover) var(--ease), filter var(--t-hover) var(--ease),
+    box-shadow var(--t-hover) var(--ease);
+}
+
+.fm-btn--primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(80, 90, 220, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.fm-btn--primary:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Barrido de brillo sutil sobre el boton principal. */
+.fm-btn--primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -70%;
+  width: 42%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-18deg);
+  transition: left 620ms var(--ease);
+}
+
+.fm-btn--primary:hover:not(:disabled)::after {
+  left: 135%;
+}
+
+.fm-btn--ghost:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.fm-btn--icon:hover:not(:disabled) {
+  border-color: var(--glass-border-strong);
+}
+
+.fm-chip {
+  transition: transform var(--t-hover) var(--ease), border-color var(--t-hover) var(--ease),
+    color var(--t-hover) var(--ease), background var(--t-hover) var(--ease);
+}
+
+.fm-chip:hover {
+  transform: translateY(-2px);
+  background: var(--glass-fill-strong);
+}
+
+/* --- Interruptor ---------------------------------------------------------- */
+.fm-switch::after {
+  transition: transform var(--t-layout) var(--ease);
+}
+
+.fm-switch:active::after {
+  width: 26px;
+}
+
+/* --- Refresco continuo del icono que carga ------------------------------- */
+.fm-spin {
+  transform-origin: center;
+}
