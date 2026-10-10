@@ -61,6 +61,7 @@ externo autorizado.
 - Campo principal para pegar un enlace, botón de **pegar desde el portapapeles** y botón de limpiar.
 - **Validación estricta de URL**: solo `http`/`https`, sin credenciales embebidas y sin hosts privados.
 - **Clasificación** de recursos: archivo directo vs. página de plataforma.
+- **Metadatos reales de YouTube** vía la API pública oEmbed (título, miniatura, autor), sin autenticación.
 - **Panel de resultados** con miniatura (si existe), título, dominio, duración, formatos, calidad y tamaño.
 - **Selector de modo** Video/Audio, contenedor y resolución **solo con opciones realmente disponibles**.
 - **Descarga real** de archivos directos, con progreso medido y cancelación.
@@ -72,6 +73,7 @@ externo autorizado.
 ## Funciones que dependen de proveedores externos
 
 - Analizar páginas de plataformas (extracción de streams).
+- **Descargar videos de YouTube**: el navegador no puede extraer los streams (CORS, firmas cifradas y medidas anti-automatización). YouTube muestra sus metadatos, pero los formatos requieren un backend externo autorizado (por ejemplo, con `yt-dlp` en un servidor propio).
 - Producir salidas que requieren servidor (remux/merge, reencode pesado, formatos no soportados localmente).
 - Descargar recursos que el navegador no puede leer por CORS.
 
@@ -209,6 +211,7 @@ Pasos para añadir uno nuevo:
 Proveedores incluidos:
 
 - `DirectMediaProvider` — archivos multimedia accesibles directamente.
+- `YouTubeProvider` — metadatos reales vía oEmbed; formatos vía backend externo si está configurado.
 - `BackendDownloadProvider` — integración opcional con un backend externo autorizado.
 - `UnsupportedSourceProvider` — explica incompatibilidad (último recurso).
 - `ConversionProvider` (`localFfmpegConversionProvider`) — descriptores del motor local.

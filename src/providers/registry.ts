@@ -6,10 +6,12 @@
 import { backendDownloadProvider } from './backendDownloadProvider'
 import { directMediaProvider } from './directMediaProvider'
 import { unsupportedSourceProvider } from './unsupportedSourceProvider'
+import { youtubeProvider } from './youtubeProvider'
 import type { Provider } from './types'
 
 export const providers: Provider[] = [
   directMediaProvider,
+  youtubeProvider,
   backendDownloadProvider,
   unsupportedSourceProvider,
 ].sort((a, b) => a.priority - b.priority)

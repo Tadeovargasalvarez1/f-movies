@@ -90,10 +90,20 @@ export async function analyzeUrl(input: string, options: AnalyzeOptions = {}): P
     }
 
     if (metadata.formats.length === 0) {
+      // Sin opciones descargables, pero con metadatos validos (p. ej. YouTube
+      // via oEmbed). Si la fuente necesita un backend y no lo hay, lo indicamos.
+      if (metadata.capabilities.requiresBackend && !hasBackend) {
+        return {
+          status: 'backend-not-configured',
+          metadata,
+          message: BACKEND_NOT_CONFIGURED_MESSAGE,
+          actionHint: 'Configura VITE_API_BASE_URL con un servicio externo autorizado para obtener los formatos.',
+        }
+      }
       return {
         status: 'unsupported',
         metadata,
-        message: 'No se detectaron formatos disponibles para esta fuente.',
+        message: metadata.notice ?? 'No se detectaron formatos disponibles para esta fuente.',
         actionHint: 'Comprueba que la fuente permita el acceso a este recurso.',
       }
     }

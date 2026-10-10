@@ -136,4 +136,20 @@ describe('analyzeUrl', () => {
     })
     expect(result.status).toBe('unsupported')
   })
+
+  it('analiza un enlace de YouTube y solicita backend para los formatos', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: true,
+        status: 200,
+        headers: new Headers({ 'content-type': 'application/json' }),
+        json: async () => ({ title: 'Video de YouTube', author_name: 'Canal' }),
+      })),
+    )
+    const result = await analyzeUrl('https://www.youtube.com/watch?v=dQw4w9WgXcQ', { hasBackend: false })
+    expect(result.status).toBe('backend-not-configured')
+    expect(result.metadata?.title).toBe('Video de YouTube')
+    expect(result.metadata?.providerId).toBe('youtube')
+  })
 })

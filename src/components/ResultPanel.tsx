@@ -38,8 +38,10 @@ export function ResultPanel(props: ResultPanelProps) {
   } = props
 
   const busy = BUSY_STATUSES.includes(status)
+  const hasFormats = videoFormats.length > 0 || audioFormats.length > 0
+  const needsBackend = status === 'backend-not-configured'
 
-  // Fuente no compatible o backend sin configurar: mensaje explicativo util.
+  // Fuente no compatible o backend sin configurar (sin metadatos): aviso util.
   if (!metadata && (status === 'backend-not-configured' || status === 'unsupported')) {
     return (
       <section className="fm-container" aria-label="Resultado del analisis">
@@ -47,11 +49,11 @@ export function ResultPanel(props: ResultPanelProps) {
           <Info size={20} aria-hidden="true" />
           <div>
             <strong>
-              {status === 'backend-not-configured' ? 'Servicio externo no configurado' : 'Fuente no compatible'}
+              {needsBackend ? 'Servicio externo no configurado' : 'Fuente no compatible'}
             </strong>
             <p style={{ margin: '6px 0 0' }}>{message}</p>
             {actionHint && <p style={{ margin: '6px 0 0' }}>{actionHint}</p>}
-            {status === 'backend-not-configured' && (
+            {needsBackend && (
               <button
                 type="button"
                 className="fm-btn fm-btn--ghost"
@@ -77,34 +79,61 @@ export function ResultPanel(props: ResultPanelProps) {
         <MetadataCard metadata={metadata} />
 
         <div>
-          <FormatSelector
-            videoFormats={videoFormats}
-            audioFormats={audioFormats}
-            selectedFormat={selectedFormat}
-            onSelect={onSelectFormat}
-            disabled={busy}
-          />
+          {hasFormats ? (
+            <>
+              <FormatSelector
+                videoFormats={videoFormats}
+                audioFormats={audioFormats}
+                selectedFormat={selectedFormat}
+                onSelect={onSelectFormat}
+                disabled={busy}
+              />
 
-          <div style={{ marginTop: 18 }}>
-            <button
-              type="button"
-              className="fm-btn fm-btn--primary"
-              onClick={onStart}
-              disabled={busy || !selectedFormat}
-            >
-              {busy ? <Loader2 size={18} className="fm-spin" aria-hidden="true" /> : <Download size={18} aria-hidden="true" />}
-              {startLabel}
-            </button>
-          </div>
+              <div style={{ marginTop: 18 }}>
+                <button
+                  type="button"
+                  className="fm-btn fm-btn--primary"
+                  onClick={onStart}
+                  disabled={busy || !selectedFormat}
+                >
+                  {busy ? (
+                    <Loader2 size={18} className="fm-spin" aria-hidden="true" />
+                  ) : (
+                    <Download size={18} aria-hidden="true" />
+                  )}
+                  {startLabel}
+                </button>
+              </div>
 
-          <StatusZone
-            status={status}
-            message={message}
-            actionHint={actionHint}
-            progress={progress}
-            busy={busy}
-            onCancel={onCancel}
-          />
+              <StatusZone
+                status={status}
+                message={message}
+                actionHint={actionHint}
+                progress={progress}
+                busy={busy}
+                onCancel={onCancel}
+              />
+            </>
+          ) : (
+            <div className="fm-notice-box liquid-glass lg-subtle" role="status">
+              <Info size={20} aria-hidden="true" />
+              <div>
+                <strong>{needsBackend ? 'Servicio externo no configurado' : 'Sin opciones descargables'}</strong>
+                <p style={{ margin: '6px 0 0' }}>{message}</p>
+                {actionHint && <p style={{ margin: '6px 0 0' }}>{actionHint}</p>}
+                {needsBackend && (
+                  <button
+                    type="button"
+                    className="fm-btn fm-btn--ghost"
+                    style={{ marginTop: 12 }}
+                    onClick={onOpenSettings}
+                  >
+                    <Settings2 size={16} aria-hidden="true" /> Ver configuracion
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </section>

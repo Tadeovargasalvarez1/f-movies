@@ -22,13 +22,15 @@ export function Help() {
           <h2>Que funciona directamente</h2>
           <ul>
             <li>Archivos multimedia directos (.mp4, .webm, .mp3, .m4a, .wav, .opus, .ogg).</li>
+            <li>Metadatos de YouTube (titulo, miniatura y autor) mediante su API publica oEmbed.</li>
             <li>Deteccion de metadatos disponibles mediante cabeceras HTTP, cuando el servidor lo permite.</li>
             <li>Conversion local con FFmpeg.wasm para archivos que el navegador puede leer.</li>
           </ul>
 
           <h2>Que depende de un servicio externo</h2>
           <ul>
-            <li>Extraccion desde plataformas de streaming, que requieren un backend autorizado.</li>
+            <li>Descargar videos de YouTube: sus streams no pueden extraerse desde el navegador (CORS y firmas cifradas). Necesita un backend autorizado.</li>
+            <li>Extraccion desde otras plataformas de streaming, que requieren un backend autorizado.</li>
             <li>Combinar pistas de video y audio separadas.</li>
             <li>Recursos protegidos por CORS, autenticacion o DRM.</li>
           </ul>
