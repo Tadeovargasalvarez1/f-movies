@@ -92,7 +92,7 @@ export function ResultPanel(props: ResultPanelProps) {
               <div style={{ marginTop: 18 }}>
                 <button
                   type="button"
-                  className="fm-btn fm-btn--primary"
+                  className={`fm-btn fm-btn--primary fm-btn--download${!busy ? ' fm-btn--pulsing' : ''}`}
                   onClick={onStart}
                   disabled={busy || !selectedFormat}
                 >

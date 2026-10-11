@@ -24,10 +24,17 @@ export function MetadataCard({ metadata }: MetadataCardProps) {
     <div className="fm-meta">
       <div className="fm-meta__head">
         {thumb ? (
-          <img className="fm-meta__thumb" src={thumb} alt="" loading="lazy" referrerPolicy="no-referrer" />
+          <img
+            className="fm-meta__thumb"
+            src={thumb}
+            alt=""
+            loading="lazy"
+            referrerPolicy="no-referrer"
+            onLoad={(e) => (e.currentTarget.style.animation = 'none')}
+          />
         ) : (
-          <div className="fm-meta__thumb fm-meta__thumb--empty" aria-hidden="true">
-            <ImageOff size={22} />
+          <div className="fm-meta__thumb fm-meta__thumb--empty fm-meta__thumb--loading" aria-hidden="true">
+            <ImageOff size={24} />
           </div>
         )}
         <div style={{ minWidth: 0 }}>

@@ -20,15 +20,16 @@ const EXAMPLES = [
 export function Hero({ value, onChange, onSubmit, analyzing, error, onNotice }: HeroProps) {
   return (
     <section className="fm-hero fm-container">
-      <span className="fm-hero__eyebrow liquid-glass lg-subtle lg-r-pill">
-        <Sparkles size={14} aria-hidden="true" /> Analiza, elige y descarga
+      <span className="fm-hero__eyebrow">
+        <Sparkles size={14} aria-hidden="true" /> Analiza · Elige · Descarga
       </span>
       <h1 className="fm-hero__title">
-        Tus videos, <span className="fm-gradient-text">a tu manera</span>
+        Descarga lo que <span className="fm-gradient-text">realmente existe</span>
       </h1>
       <p className="fm-hero__subtitle">
-        Pega un enlace, revisa que formatos y calidades estan realmente disponibles y descarga cuando la
-        fuente y los permisos lo permitan. Sin promesas imposibles y sin servicios ocultos.
+        Pega un enlace de video o audio, descubre los formatos y calidades reales
+        disponibles, y descarga directamente cuando la fuente lo permite.
+        Sin trucos ni servicios ocultos.
       </p>
 
       <UrlInput

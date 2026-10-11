@@ -294,19 +294,22 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   font-size: 0.82rem;
   border-radius: var(--radius-pill);
   border: 1px solid var(--glass-border);
   background: var(--glass-fill);
   color: var(--fm-text-muted);
   cursor: pointer;
-  transition: border-color var(--t-hover) var(--ease), color var(--t-hover) var(--ease);
+  transition: border-color var(--t-hover) var(--ease), color var(--t-hover) var(--ease),
+    background var(--t-hover) var(--ease), box-shadow var(--t-hover) var(--ease);
 }
 
 .fm-chip:hover {
-  border-color: var(--glass-border-strong);
-  color: var(--fm-text);
+  border-color: rgba(139, 92, 255, 0.4);
+  color: var(--fm-violet);
+  background: rgba(139, 92, 255, 0.08);
+  box-shadow: 0 4px 16px rgba(139, 92, 255, 0.15);
 }
 
 .fm-badge {
