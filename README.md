@@ -256,6 +256,30 @@ Proveedores incluidos:
 
 Sin `VITE_API_BASE_URL`, F Movies opera en modo estático y lo indica con claridad.
 
+### Backend incluido (YouTube con pytubefix)
+
+En `backend/` hay un servicio listo que implementa `/analyze` y `/download` usando
+[`pytubefix`](https://pypi.org/project/pytubefix/), para analizar y descargar videos de YouTube:
+
+```bash
+cd backend
+python -m venv .venv
+.venv\Scripts\activate          # Windows (macOS/Linux: source .venv/bin/activate)
+pip install -r requirements.txt
+uvicorn app:app --reload --port 8000
+```
+
+Luego, en la raíz del proyecto, crea `.env.local` con `VITE_API_BASE_URL=http://localhost:8000`
+y ejecuta `npm run dev`. Al analizar un enlace de YouTube aparecerán los formatos reales.
+
+Para producción, el backend debe servirse por **HTTPS** (GitHub Pages es HTTPS y el navegador
+bloquea el contenido mixto). Detalles, Docker y notas de seguridad en
+[`backend/README.md`](backend/README.md).
+
+> ⚠️ Descargar contenido puede infringir derechos de autor y los términos de servicio de
+> YouTube. Es responsabilidad tuya usar este backend solo con contenido autorizado, y de
+> protegerlo (CORS, límites y rate limiting) si lo expones públicamente.
+
 ---
 
 ## Limitaciones de CORS

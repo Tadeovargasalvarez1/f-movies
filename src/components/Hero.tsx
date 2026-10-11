@@ -15,7 +15,6 @@ const EXAMPLES = [
   { label: 'Video MP4 (MDN, CC0)', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4' },
   { label: 'Video WebM (MDN, CC0)', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm' },
   { label: 'Audio MP3 (MDN, CC0)', url: 'https://interactive-examples.mdn.mozilla.net/media/cc0-audio/t-rex-roar.mp3' },
-  { label: 'YouTube (metadatos)', url: 'https://www.youtube.com/watch?v=C-Wh8Og-5I4' },
 ]
 
 export function Hero({ value, onChange, onSubmit, analyzing, error, onNotice }: HeroProps) {
