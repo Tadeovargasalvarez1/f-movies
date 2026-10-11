@@ -6,6 +6,7 @@
 import { API_BASE_URL, ENDPOINTS } from '../config'
 import type { Container, MediaFormatOption, ProgressInfo, SourceMetadata } from '../types'
 import { fetchWithTimeout } from '../utils/http'
+import { requestCobaltDownload } from './cobalt'
 
 const EXT_BY_CONTAINER: Record<Container, string> = {
   mp4: 'mp4',
@@ -156,12 +157,14 @@ export async function downloadViaBackend(
   format: MediaFormatOption,
   onProgress?: (p: ProgressInfo) => void,
   signal?: AbortSignal,
+  apiBaseUrl?: string,
 ): Promise<BackendDownloadResult> {
-  if (!API_BASE_URL) {
+  const base = apiBaseUrl !== undefined ? apiBaseUrl : API_BASE_URL
+  if (!base) {
     throw new Error('BACKEND_NOT_CONFIGURED')
   }
 
-  const res = await fetchWithTimeout(`${API_BASE_URL}${ENDPOINTS.download}`, {
+  const res = await fetchWithTimeout(`${base}${ENDPOINTS.download}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ url: meta.url, formatId: format.id }),
@@ -205,6 +208,28 @@ export async function performDownload(params: {
   const { meta, format, signal, onProgress } = params
   const fileName = buildFileName(meta, format)
 
+  // 1. Descarga vía Cobalt API (compatible con GitHub Pages sin servidor Python)
+  if (format.source === 'cobalt') {
+    onProgress?.({ ratio: null, phase: 'Obteniendo enlace de descarga...' })
+    const isAudio = format.mediaType === 'audio'
+    const cobaltRes = await requestCobaltDownload(
+      {
+        url: meta.url,
+        videoQuality: (format.cobaltQuality as any) ?? (format.resolution ? format.resolution.replace('p', '') : '1080'),
+        audioFormat: format.container === 'mp3' ? 'mp3' : format.container === 'opus' ? 'opus' : 'best',
+        downloadMode: isAudio ? 'audio' : 'auto',
+      },
+      signal,
+    )
+    return downloadDirect({ url: cobaltRes.downloadUrl, fileName: cobaltRes.filename || fileName, signal, onProgress })
+  }
+
+  // 2. Descarga vía URL directa ya resuelta (ej. Invidious o stream público)
+  if (format.directUrl) {
+    return downloadDirect({ url: format.directUrl, fileName, signal, onProgress })
+  }
+
+  // 3. Descarga vía backend propio de Python (yt-dlp) si está configurado
   if (format.source === 'backend') {
     const result = await downloadViaBackend(meta, format, onProgress, signal)
     if (result.blob) {

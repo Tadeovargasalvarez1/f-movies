@@ -1,6 +1,7 @@
 import { Cpu, Database, History, Moon, Server, Sun, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 import { API_BASE_URL, HAS_BACKEND, LOCAL_CONVERSION_LIMITS } from '../config'
+import { getCobaltApiKey, getCobaltApiUrl, setCobaltApiKey, setCobaltApiUrl } from '../services/cobalt'
 import { isLocalConversionSupported } from '../services/converter'
 import { formatBytes } from '../utils/format'
 import type { ThemeName } from '../types'
@@ -28,6 +29,8 @@ function Switch({ checked, onChange, label }: { checked: boolean; onChange: (v: 
 
 export function Settings({ analyzer, theme, onToggleTheme, onLoadUrl }: SettingsProps) {
   const [localSupported] = useState(() => isLocalConversionSupported())
+  const [cobaltUrl, setCobaltUrlState] = useState(() => getCobaltApiUrl())
+  const [cobaltKey, setCobaltKeyState] = useState(() => getCobaltApiKey())
 
   return (
     <main className="fm-main" id="contenido">
@@ -91,30 +94,81 @@ export function Settings({ analyzer, theme, onToggleTheme, onLoadUrl }: Settings
             </>
           )}
 
-          <h2>Motores</h2>
+          <h2>Motores y APIs</h2>
           <div className="fm-stack">
+            {/* Cobalt API */}
+            <div className="liquid-glass lg-subtle" style={{ borderRadius: 'var(--radius-control)', padding: '16px 20px' }}>
+              <div className="fm-row" style={{ gap: 10, justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  <Server size={18} aria-hidden="true" style={{ color: 'var(--fm-violet)' }} />
+                  <strong>Cobalt API (Descargas en GitHub Pages)</strong>
+                </div>
+                <span className="fm-badge" style={{ color: 'var(--fm-green)' }}>Activo en navegador</span>
+              </div>
+              <p className="fm-muted" style={{ margin: '8px 0 14px', fontSize: '0.86rem' }}>
+                Permite descargar videos de YouTube y plataformas en GitHub Pages directamente desde el navegador,
+                sin necesidad de instalar Python ni abrir terminales.
+              </p>
+
+              <div className="fm-stack" style={{ gap: 12 }}>
+                <div className="fm-field">
+                  <label className="fm-label" htmlFor="cobalt-url">URL de Instancia de Cobalt</label>
+                  <input
+                    id="cobalt-url"
+                    type="url"
+                    className="fm-search__input liquid-glass lg-subtle"
+                    style={{ padding: '0 14px', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-control)', height: 42 }}
+                    placeholder="https://api.cobalt.tools"
+                    value={cobaltUrl}
+                    onChange={(e) => {
+                      setCobaltUrlState(e.target.value)
+                      setCobaltApiUrl(e.target.value)
+                    }}
+                  />
+                </div>
+
+                <div className="fm-field">
+                  <label className="fm-label" htmlFor="cobalt-key">Clave de API (Opcional, para instancias privadas)</label>
+                  <input
+                    id="cobalt-key"
+                    type="password"
+                    className="fm-search__input liquid-glass lg-subtle"
+                    style={{ padding: '0 14px', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-control)', height: 42 }}
+                    placeholder="Dejar vacío para instancias públicas"
+                    value={cobaltKey}
+                    onChange={(e) => {
+                      setCobaltKeyState(e.target.value)
+                      setCobaltApiKey(e.target.value)
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Servicio backend opcional */}
             <div className="liquid-glass lg-subtle" style={{ borderRadius: 'var(--radius-control)', padding: '14px 18px' }}>
               <div className="fm-row" style={{ gap: 10 }}>
                 <Server size={18} aria-hidden="true" />
-                <strong>Servicio externo</strong>
-                <span className="fm-badge">{HAS_BACKEND ? 'Configurado' : 'No configurado'}</span>
+                <strong>Backend propio (yt-dlp)</strong>
+                <span className="fm-badge">{HAS_BACKEND ? 'Conectado' : 'Opcional'}</span>
               </div>
               <p className="fm-muted" style={{ margin: '8px 0 0', fontSize: '0.86rem' }}>
                 {HAS_BACKEND
-                  ? `Conectado a ${API_BASE_URL}. Las fuentes que requieren extraccion en servidor se procesaran ahi.`
-                  : 'Define VITE_API_BASE_URL para habilitar la extraccion desde plataformas. Sin el, F Movies opera en modo estatico y solo admite archivos directos.'}
+                  ? `Conectado a ${API_BASE_URL}. Si está activo, tiene prioridad para extracciones avanzadas.`
+                  : 'Opcional. Si despliegas un backend propio con FastAPI + yt-dlp en Render o Railway, puedes conectarlo con VITE_API_BASE_URL.'}
               </p>
             </div>
 
+            {/* FFmpeg.wasm */}
             <div className="liquid-glass lg-subtle" style={{ borderRadius: 'var(--radius-control)', padding: '14px 18px' }}>
               <div className="fm-row" style={{ gap: 10 }}>
                 <Cpu size={18} aria-hidden="true" />
-                <strong>Conversion local (FFmpeg.wasm)</strong>
+                <strong>Conversión local (FFmpeg.wasm)</strong>
                 <span className="fm-badge">{localSupported ? 'Disponible' : 'No disponible'}</span>
               </div>
               <p className="fm-muted" style={{ margin: '8px 0 0', fontSize: '0.86rem' }}>
-                Se carga bajo demanda. Limite de tamano por archivo: {formatBytes(LOCAL_CONVERSION_LIMITS.maxBytes)}.
-                El nucleo de FFmpeg se descarga desde un CDN publico solo al usarlo.
+                Se ejecuta dentro de tu navegador. Límite de tamaño: {formatBytes(LOCAL_CONVERSION_LIMITS.maxBytes)}.
+                No requiere ningún servidor.
               </p>
             </div>
           </div>

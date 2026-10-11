@@ -1,5 +1,5 @@
 # Backend opcional de F Movies.
-# Ejecuta la extraccion y descarga de YouTube con pytubefix.
+# Ejecuta la extracción y descarga con yt-dlp (soporta YouTube y +1000 sitios).
 fastapi>=0.115
 uvicorn[standard]>=0.30
-pytubefix>=8.0
+yt-dlp>=2024.1.0

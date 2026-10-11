@@ -130,6 +130,6 @@ describe('backend no configurado', () => {
       source: 'backend',
       requiresBackend: true,
     }
-    await expect(downloadViaBackend(meta, format)).rejects.toThrow('BACKEND_NOT_CONFIGURED')
+    await expect(downloadViaBackend(meta, format, undefined, undefined, '')).rejects.toThrow('BACKEND_NOT_CONFIGURED')
   })
 })

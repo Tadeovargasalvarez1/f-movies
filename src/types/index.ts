@@ -24,7 +24,7 @@ export type VideoResolution =
   | 'original'
 
 /** Origen de una opcion de salida. */
-export type FormatSource = 'direct' | 'converted' | 'backend'
+export type FormatSource = 'direct' | 'converted' | 'backend' | 'cobalt'
 
 /**
  * Una opcion de salida concreta y verificable. Nunca debe inventarse:
@@ -45,6 +45,10 @@ export interface MediaFormatOption {
   source: FormatSource
   /** Indica si esta opcion requiere un motor externo para producirse. */
   requiresBackend?: boolean
+  /** URL directa si ya fue resuelta por un servicio como Invidious o Cobalt. */
+  directUrl?: string
+  /** Opciones para resolver descarga vía Cobalt API. */
+  cobaltQuality?: string
 }
 
 /** Capacidades reales que un proveedor declara para una fuente. */
