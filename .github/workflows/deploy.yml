@@ -5,13 +5,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# Permisos minimos necesarios para publicar en GitHub Pages.
+# Permisos mínimos necesarios para publicar en GitHub Pages.
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Evita despliegues simultaneos.
+# Evita despliegues simultáneos.
 concurrency:
   group: pages
   cancel-in-progress: true
@@ -38,8 +38,11 @@ jobs:
       - name: Compilar
         run: npm run build
         env:
-          # La ruta base se deduce de GITHUB_REPOSITORY (/<repo>/).
+          # La ruta base se deduce de GITHUB_REPOSITORY (/repo/).
           VITE_BASE: /${{ github.event.repository.name }}/
+          # URL del backend externo (configurar como secret en GitHub: Settings > Secrets)
+          # Si no hay backend, la variable estará vacía y el sitio funciona en modo estático.
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
 
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5

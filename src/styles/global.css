@@ -35,9 +35,10 @@ body {
   z-index: -1;
   overflow: hidden;
   background:
-    radial-gradient(1100px 700px at 12% -8%, rgba(139, 92, 255, 0.28), transparent 60%),
-    radial-gradient(900px 620px at 92% 4%, rgba(79, 139, 255, 0.22), transparent 58%),
-    radial-gradient(1000px 820px at 50% 118%, rgba(255, 92, 200, 0.2), transparent 62%),
+    radial-gradient(1200px 800px at 8% -10%, rgba(139, 92, 255, 0.32), transparent 58%),
+    radial-gradient(1000px 700px at 95% 2%, rgba(79, 139, 255, 0.26), transparent 56%),
+    radial-gradient(800px 600px at 80% 95%, rgba(255, 92, 200, 0.22), transparent 60%),
+    radial-gradient(600px 500px at 20% 85%, rgba(70, 224, 255, 0.14), transparent 58%),
     var(--fm-bg);
 }
 
@@ -70,15 +71,13 @@ body {
 }
 
 @keyframes fm-drift-a {
-  to {
-    transform: translate3d(6vw, 4vw, 0) scale(1.12);
-  }
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(8vw, 5vw, 0) scale(1.18); }
 }
 
 @keyframes fm-drift-b {
-  to {
-    transform: translate3d(-5vw, -3vw, 0) scale(1.1);
-  }
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(-7vw, -4vw, 0) scale(1.14); }
 }
 
 /* Layout */

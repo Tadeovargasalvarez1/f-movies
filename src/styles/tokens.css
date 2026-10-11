@@ -16,7 +16,14 @@
   --fm-amber: #ffc24b;
   --fm-red: #ff5f6d;
 
-  --fm-gradient: linear-gradient(120deg, var(--fm-violet), var(--fm-blue) 55%, var(--fm-magenta));
+  --fm-gradient: linear-gradient(125deg, var(--fm-violet) 0%, var(--fm-blue) 45%, var(--fm-magenta) 100%);
+
+  /* Glows y efectos extra */
+  --fm-glow-violet: rgba(139, 92, 255, 0.35);
+  --fm-glow-blue: rgba(79, 139, 255, 0.3);
+  --fm-glow-magenta: rgba(255, 92, 200, 0.28);
+  --glass-blur-hero: 40px;
+  --glass-glow: 0 0 60px rgba(139, 92, 255, 0.2), 0 0 120px rgba(79, 139, 255, 0.12);
 
   /* Fondos */
   --fm-bg: #06070d;
@@ -51,6 +58,7 @@
   --t-hover: 180ms;
   --t-press: 120ms;
   --t-layout: 260ms;
+  --t-slow: 400ms;
 
   --focus: 0 0 0 2px rgba(79, 139, 255, 0.95), 0 0 0 5px rgba(79, 139, 255, 0.28);
 
